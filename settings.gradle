@@ -1,0 +1,2 @@
+include 'jrosmoveit'
+include 'jrosmoveit.tests'
