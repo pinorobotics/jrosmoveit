@@ -26,12 +26,12 @@ package pinorobotics.jrosmoveit.moveit_msgs;
 
 import java.util.Objects;
 
-import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.std_msgs.HeaderMessage;
 import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import pinorobotics.jrosactionlib.actionlib_msgs.GoalIdMessage;
+import pinorobotics.jrosactionlib.msgs.ActionGoalMessage;
 
 /**
  * Definition for moveit_msgs/ExecuteTrajectoryActionGoal
@@ -40,7 +40,7 @@ import pinorobotics.jrosactionlib.actionlib_msgs.GoalIdMessage;
 @MessageMetadata(
     type = ExecuteTrajectoryActionGoalMessage.NAME,
     md5sum = "36f350977c67bc94e8cd408452bad0f0")
-public class ExecuteTrajectoryActionGoalMessage implements Message {
+public class ExecuteTrajectoryActionGoalMessage implements ActionGoalMessage<ExecuteTrajectoryGoalMessage> {
    
    static final String NAME = "moveit_msgs/ExecuteTrajectoryActionGoal";
 

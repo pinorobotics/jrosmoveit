@@ -26,12 +26,12 @@ package pinorobotics.jrosmoveit.moveit_msgs;
 
 import java.util.Objects;
 
-import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.std_msgs.HeaderMessage;
 import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import pinorobotics.jrosactionlib.actionlib_msgs.GoalStatusMessage;
+import pinorobotics.jrosactionlib.msgs.ActionResultMessage;
 
 /**
  * Definition for moveit_msgs/ExecuteTrajectoryActionResult
@@ -40,7 +40,7 @@ import pinorobotics.jrosactionlib.actionlib_msgs.GoalStatusMessage;
 @MessageMetadata(
     type = ExecuteTrajectoryActionResultMessage.NAME,
     md5sum = "3aa24b8b6dd690aa38a02c1bea6f419f")
-public class ExecuteTrajectoryActionResultMessage implements Message {
+public class ExecuteTrajectoryActionResultMessage implements ActionResultMessage<ExecuteTrajectoryResultMessage> {
    
    static final String NAME = "moveit_msgs/ExecuteTrajectoryActionResult";
 
@@ -95,5 +95,15 @@ public class ExecuteTrajectoryActionResultMessage implements Message {
            "result", result
        );
    }
+
+    @Override
+    public GoalStatusMessage getStatus() {
+        return status;
+    }
+    
+    @Override
+    public ExecuteTrajectoryResultMessage getResult() {
+        return result;
+    }
    
 }

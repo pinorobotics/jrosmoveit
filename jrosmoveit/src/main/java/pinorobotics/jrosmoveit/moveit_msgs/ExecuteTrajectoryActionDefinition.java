@@ -19,34 +19,24 @@
  * Authors:
  * - aeon_flux <aeon_flux@eclipso.ch>
  */
-package pinorobotics.jrosmoveit;
+package pinorobotics.jrosmoveit.moveit_msgs;
 
-import java.util.Arrays;
+import pinorobotics.jrosactionlib.msgs.ActionDefinition;
+import pinorobotics.jrosactionlib.msgs.ActionGoalMessage;
+import pinorobotics.jrosactionlib.msgs.ActionResultMessage;
 
-import id.xfunction.XJson;
+public class ExecuteTrajectoryActionDefinition implements
+    ActionDefinition<ExecuteTrajectoryGoalMessage, ExecuteTrajectoryResultMessage>
+{
 
-public class RobotState implements Cloneable {
-
-    private RobotModel model;
-    private double[] positions;
-
-    public void setJointPositions(double[] positions) {
-        this.positions = positions;
-    }
-
-    public RobotModel getModel() {
-        return model;
+    @Override
+    public Class<? extends ActionGoalMessage<ExecuteTrajectoryGoalMessage>> getActionGoalMessage() {
+        return ExecuteTrajectoryActionGoalMessage.class;
     }
 
     @Override
-    public String toString() {
-        return XJson.asString("positions", positions);
+    public Class<? extends ActionResultMessage<ExecuteTrajectoryResultMessage>> getActionResultMessage() {
+        return ExecuteTrajectoryActionResultMessage.class;
     }
 
-    @Override
-    public RobotState clone() throws CloneNotSupportedException {
-        var tmp = new RobotState();
-        tmp.setJointPositions(Arrays.copyOf(positions, positions.length));
-        return tmp;
-    }
 }

@@ -24,14 +24,16 @@
 
 package pinorobotics.jrosmoveit.moveit_msgs;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
+import id.jrosmessages.std_msgs.Int32Message;
 import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
-
-import id.jrosmessages.std_msgs.Int32Message;
 
 /**
  * Definition for moveit_msgs/MoveItErrorCodes
@@ -46,49 +48,64 @@ public class MoveItErrorCodesMessage implements Message {
    @Streamed
    public Int32Message val = new Int32Message();
    
-   /**
-    * Overall behavior
-    */
-   public static final int SUCCESS=1;
-   public static final int FAILURE=99999;
+   public enum CodeType {
+       /**
+        * Overall behavior
+        */
+       SUCCESS(1),
+       FAILURE(99999),
 
-   public static final int PLANNING_FAILED=-1;
-   public static final int INVALID_MOTION_PLAN=-2;
-   public static final int MOTION_PLAN_INVALIDATED_BY_ENVIRONMENT_CHANGE=-3;
-   public static final int CONTROL_FAILED=-4;
-   public static final int UNABLE_TO_AQUIRE_SENSOR_DATA=-5;
-   public static final int TIMED_OUT=-6;
-   public static final int PREEMPTED=-7;
+       PLANNING_FAILED(-1),
+       INVALID_MOTION_PLAN(-2),
+       MOTION_PLAN_INVALIDATED_BY_ENVIRONMENT_CHANGE(-3),
+       CONTROL_FAILED(-4),
+       UNABLE_TO_AQUIRE_SENSOR_DATA(-5),
+       TIMED_OUT(-6),
+       PREEMPTED(-7),
+       
+       /**
+        * Planning & kinematics request errors
+        */
+       START_STATE_IN_COLLISION(-10),
+       START_STATE_VIOLATES_PATH_CONSTRAINTS(-11),
 
-   /**
-    * Planning & kinematics request errors
-    */
-   public static final int START_STATE_IN_COLLISION=-10;
-   public static final int START_STATE_VIOLATES_PATH_CONSTRAINTS=-11;
+       GOAL_IN_COLLISION(-12),
+       GOAL_VIOLATES_PATH_CONSTRAINTS(-13),
+       GOAL_CONSTRAINTS_VIOLATED(-14),
 
-   public static final int GOAL_IN_COLLISION=-12;
-   public static final int GOAL_VIOLATES_PATH_CONSTRAINTS=-13;
-   public static final int GOAL_CONSTRAINTS_VIOLATED=-14;
+       INVALID_GROUP_NAME(-15),
+       INVALID_GOAL_CONSTRAINTS(-16),
+       INVALID_ROBOT_STATE(-17),
+       INVALID_LINK_NAME(-18),
+       INVALID_OBJECT_NAME(-19),
 
-   public static final int INVALID_GROUP_NAME=-15;
-   public static final int INVALID_GOAL_CONSTRAINTS=-16;
-   public static final int INVALID_ROBOT_STATE=-17;
-   public static final int INVALID_LINK_NAME=-18;
-   public static final int INVALID_OBJECT_NAME=-19;
+       /**
+        * System errors
+        */
+       FRAME_TRANSFORM_FAILURE(-21),
+       COLLISION_CHECKING_UNAVAILABLE(-22),
+       ROBOT_STATE_STALE(-23),
+       SENSOR_INFO_STALE(-24),
+       COMMUNICATION_FAILURE(-25),
 
-   /**
-    * System errors
-    */
-   public static final int FRAME_TRANSFORM_FAILURE=-21;
-   public static final int COLLISION_CHECKING_UNAVAILABLE=-22;
-   public static final int ROBOT_STATE_STALE=-23;
-   public static final int SENSOR_INFO_STALE=-24;
-   public static final int COMMUNICATION_FAILURE=-25;
+       /**
+        * Kinematics errors
+        */
+       NO_IK_SOLUTION(-31);
+       
+       private int code;
+       
+       private CodeType(int code) {
+           this.code = code;
+       }
+       
+       public int getCode() {
+           return code;
+       }
+   }
 
-   /**
-    * Kinematics errors
-    */
-   public static final int NO_IK_SOLUTION=-31;
+   private static final Map<Integer, CodeType> CODE_TYPE_MAP = Arrays.stream(CodeType.values())
+           .collect(Collectors.toMap(CodeType::getCode, c -> c));
    
    public MoveItErrorCodesMessage withVal(int val) {
        this.val.data = val;
@@ -117,4 +134,11 @@ public class MoveItErrorCodesMessage implements Message {
        );
    }
    
+   public boolean isOk() {
+       return CODE_TYPE_MAP.get(val.data) == CodeType.SUCCESS;
+   }
+   
+   public CodeType getCodeType() {
+       return CODE_TYPE_MAP.get(val.data);
+   }
 }
