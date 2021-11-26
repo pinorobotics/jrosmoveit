@@ -34,7 +34,7 @@ javadoc {
 sourceSets {
     main {
         java {
-            srcDirs += ["src/main/gen"]
+            srcDirs += ["src/main/gen/java"]
         }
     }
 }
