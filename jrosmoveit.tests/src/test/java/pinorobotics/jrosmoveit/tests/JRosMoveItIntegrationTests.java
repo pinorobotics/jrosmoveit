@@ -34,11 +34,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import id.jrosclient.JRosClient;
+import id.jrosmessages.JRosMessagesTransformer;
 import id.jrosmessages.geometry_msgs.PointMessage;
 import id.jrosmessages.geometry_msgs.PoseMessage;
 import id.jrosmessages.geometry_msgs.QuaternionMessage;
 import id.jrosmessages.visualization_msgs.MarkerMessage;
 import id.xfunction.ResourceUtils;
+import id.xfunction.XJson;
 import id.xfunction.logging.XLogger;
 import pinorobotics.jrosmoveit.JRosMoveIt;
 import pinorobotics.jrosmoveit.RobotModel;
@@ -46,6 +48,7 @@ import pinorobotics.jrosmoveit.RobotStateMonitor;
 import pinorobotics.jrosrviztools.Colors;
 import pinorobotics.jrosrviztools.JRosRvizTools;
 import pinorobotics.jrosrviztools.Scales;
+import pinorobotics.jrostf2.JRosTf2;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class JRosMoveItIntegrationTests {
@@ -55,10 +58,13 @@ public class JRosMoveItIntegrationTests {
     private static JRosClient client;
     private JRosMoveIt moveIt;
     private JRosRvizTools rvizTools;
+    private JRosTf2 tf2;
 
     @BeforeAll
     public static void setupAll() {
         XLogger.load("jrosmoveit-test.properties");
+        XJson.setLimitDecimalPlaces(2);
+        XJson.setNegativeZero(false);
     }
     
     @BeforeEach
@@ -66,12 +72,14 @@ public class JRosMoveItIntegrationTests {
         client = new JRosClient("http://localhost:11311/");
         rvizTools = new JRosRvizTools(client, BASE_FRAME);
         moveIt = new JRosMoveIt(client, "panda_arm", new RobotModel(BASE_FRAME));
+        tf2 = new JRosTf2(client);
     }
 
     @AfterEach
     public void clean() throws Exception {
         moveIt.close();
         rvizTools.close();
+        tf2.close();
         client.close();
     }
 
@@ -91,6 +99,7 @@ public class JRosMoveItIntegrationTests {
         var points = new PointMessage[] {
                 new PointMessage(0.28, 0.2, 0.5),
                 new PointMessage(0.28, -0.2, 0.5)};
+        var startTransform = tf2.lookupTransform("world", "panda_hand").transform.transform;
         rvizTools.publishMarkers(Colors.RED, Scales.XLARGE, MarkerMessage.Type.SPHERE, points);
         try (var monitor = new RobotStateMonitor(client)) {
             monitor.start();
@@ -108,7 +117,7 @@ public class JRosMoveItIntegrationTests {
                 Assertions.assertEquals(9, jointState.position.length);
                 var jointTrajectoryMessage = plan.getPlannedTrajectory().joint_trajectory;
                 Assertions.assertEquals(7, jointTrajectoryMessage.joint_names.length);
-                Assertions.assertTrue(jointTrajectoryMessage.points.length > 10);
+                Assertions.assertTrue(jointTrajectoryMessage.points.length > 5);
                 
                 var state = monitor.getCurrentRobotState().clone();
                 System.out.println("Current state: " + state);
@@ -120,6 +129,11 @@ public class JRosMoveItIntegrationTests {
                 Assertions.assertNotEquals(state, newState);
             }
         }
+        moveIt.setPoseTarget(new JRosMessagesTransformer()
+                .asPoseMessage(startTransform), "panda_hand");
+        moveIt.move();
+        var endTransform = tf2.lookupTransform("world", "panda_hand").transform.transform;
+        Assertions.assertEquals(startTransform.toString(), endTransform.toString());
     }
     
 }

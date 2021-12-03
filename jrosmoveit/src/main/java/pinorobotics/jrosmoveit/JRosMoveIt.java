@@ -69,7 +69,6 @@ public class JRosMoveIt implements Closeable {
             .withAllowedPlanningTime(5.0);
     private MoveGroupGoalMessage goal = new MoveGroupGoalMessage()
             .withPlanningOptions(new PlanningOptionsMessage()
-                .withPlanOnly(true)
                 .withLookAround(false)
                 .withReplan(false)
                 .withPlanningSceneDiff(new PlanningSceneMessage()
@@ -96,8 +95,14 @@ public class JRosMoveIt implements Closeable {
                 client, new ExecuteTrajectoryActionDefinition(), "/execute_trajectory");
     }
     
+    /**
+     * Asks MoveIt to create a plan for moving robot to target pose.
+     * MoveIt will calculate and create a trajectory.
+     * It will publish it to display_planned_path topic which can be visualized in RViz
+     */
     public Plan plan() throws JRosMoveItException {
         LOGGER.entering("plan");
+        goal.planning_options.plan_only = true;
         populateMotionPlanRequest();
         MoveGroupResultMessage result;
         try {
@@ -106,15 +111,40 @@ public class JRosMoveIt implements Closeable {
             throw new JRosMoveItException(e);
         }
         verifyResult(result.error_code);
-        return createPlan(result);
+        var plan = createPlan(result);
+        LOGGER.exiting("plan", plan);
+        return plan;
     }
 
+    /**
+     * Let MoveIt to execute given plan which will cause robot to change its state
+     * to the new target pose state.
+     */
     public void execute(Plan plan) throws JRosMoveItException {
+        LOGGER.entering("execute");
         var goal = new ExecuteTrajectoryGoalMessage();
         goal.trajectory = plan.getPlannedTrajectory();
         ExecuteTrajectoryResultMessage result;
         try {
             result = executeTrajectoryActionClient.sendGoal(goal).get();
+        } catch (Exception e) {
+            throw new JRosMoveItException(e);
+        }
+        verifyResult(result.error_code);
+        LOGGER.exiting("execute");
+    }
+
+    /**
+     * This method combines two actions like calculating plan and executing it
+     * in one single action. It will do only one call to MoveIt instead of two.
+     */
+    public void move() throws JRosMoveItException {
+        LOGGER.entering("move");
+        goal.planning_options.plan_only = false;
+        populateMotionPlanRequest();
+        MoveGroupResultMessage result;
+        try {
+            result = moveGroupActionClient.sendGoal(goal).get();
         } catch (Exception e) {
             throw new JRosMoveItException(e);
         }
