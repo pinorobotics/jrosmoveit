@@ -17,6 +17,8 @@ dependencies {
 
 # Development
 
+Building **jrosmoveit** module locally and making changes to it (this is optional and not intended for **jrosmoveit** users).
+
 ## With Eclipse
 
 - Build eclipse projects:
@@ -26,8 +28,6 @@ gradle eclipse
 ```
 
 - Import them into Eclipse
-- Open `Project Properties` -> `Libraries`
-- Move all dependencies from `Classpath` to `Modulepath`
 
 # Contributors
 

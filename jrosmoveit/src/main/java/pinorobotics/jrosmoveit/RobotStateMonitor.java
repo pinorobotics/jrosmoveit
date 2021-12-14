@@ -64,6 +64,6 @@ public class RobotStateMonitor implements Closeable {
 
     @Override
     public void close() throws IOException {
-        jointStateSubscriber.unsubscribe();        
+        jointStateSubscriber.getSubscription().cancel();        
     }
 }

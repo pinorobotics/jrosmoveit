@@ -4,6 +4,14 @@ plugins {
 
 apply plugin : 'eclipse'
 
+eclipse.classpath.file {
+    // because we disable inferModulePath later we intruct eclipse plugin
+    // to put everything to module path
+    whenMerged {
+        entries.findAll { it.kind == 'lib' }.each { it.entryAttributes['module'] = 'true' }
+    }
+}
+
 dependencies {
     implementation 'io.github.lambdaprime:jrosclient:3.0'
     implementation 'io.github.pinorobotics:jrosactionlib:1.0'
@@ -68,6 +76,18 @@ task cleanRelease(type: Delete) {
 createRelease.dependsOn createPackage, javadoc
 assemble.dependsOn createRelease
 clean.dependsOn cleanRelease
+
+task updateVersion() {
+    if (version.contains("SNAPSHOT")) return;
+    println "Updating version to " + version
+    new id.xfunction.text.Substitutor()
+        .withRegexpSupport()
+        .substitute(java.nio.file.Paths.get("${project.rootDir}/README.md"), Map.of(
+            "io.github.pinorobotics:jrosmoveit:[0-9.]+", "io.github.pinorobotics:jrosmoveit:" + version
+        ));
+}
+
+createPackage.dependsOn updateVersion
 
 if (project.hasProperty('publish')) {
 
@@ -134,10 +154,11 @@ if (project.hasProperty('publish')) {
     }    
   }
 
-  apply plugin: 'signing'
+  if (project.hasProperty('signing.secretKeyRingFile')) {
+    apply plugin: 'signing'
 
-  signing {
-    sign publishing.publications.mavenJava
+    signing {
+      sign publishing.publications.mavenJava
+    }
   }
-
 }
