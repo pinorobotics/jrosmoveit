@@ -20,7 +20,7 @@ dependencies {
 
 # Documentation
 
-[Documentation](http://portal2.atwebpages.com/jrosmoveit)
+[Documentation](http://pinoweb.freetzi.com/jrosmoveit)
 
 [Development](DEVELOPMENT.md)
 
