@@ -57,7 +57,7 @@ public class PlanningOptionsMessage implements Message {
    public boolean plan_only;
    
    /**
-    * If this flag is set to true, the action of planning &
+    * If this flag is set to true, the action of planning and
     * executing is allowed to look around  (move sensors) if
     * it seems that not enough information is available about
     * the environment
@@ -66,7 +66,7 @@ public class PlanningOptionsMessage implements Message {
    public boolean look_around;
    
    /**
-    * If this value is positive, the action of planning & executing
+    * If this value is positive, the action of planning and executing
     * is allowed to look around for a maximum number of attempts;
     * If the value is left as 0, the default value is used, as set
     * with dynamic_reconfigure

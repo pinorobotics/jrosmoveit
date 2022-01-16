@@ -64,7 +64,7 @@ public class MoveItErrorCodesMessage implements Message {
        PREEMPTED(-7),
        
        /**
-        * Planning & kinematics request errors
+        * Planning and kinematics request errors
         */
        START_STATE_IN_COLLISION(-10),
        START_STATE_VIOLATES_PATH_CONSTRAINTS(-11),

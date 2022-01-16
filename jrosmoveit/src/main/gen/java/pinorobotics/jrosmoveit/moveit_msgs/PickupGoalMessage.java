@@ -117,7 +117,7 @@ public class PickupGoalMessage implements Message {
    /**
     * an optional list of obstacles that we have semantic information about
     * and that can be touched/pushed/moved in the course of grasping;
-    * CAREFUL: If the object name 'all' is used, collisions with all objects are disabled during the approach & lift.
+    * CAREFUL: If the object name 'all' is used, collisions with all objects are disabled during the approach and lift.
     */
    @Streamed
    public StringMessage[] allowed_touch_objects = new StringMessage[0];

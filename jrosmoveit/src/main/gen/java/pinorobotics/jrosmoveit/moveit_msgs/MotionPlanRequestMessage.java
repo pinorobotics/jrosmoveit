@@ -137,7 +137,7 @@ public class MotionPlanRequestMessage implements Message {
    
    /**
     * Maximum cartesian speed for the given end effector.
-    * If max_cartesian_speed <= 0 the trajectory is not modified.
+    * If max_cartesian_speed less or equal to 0 the trajectory is not modified.
     * These fields require the following planning request adapter: default_planner_request_adapters/SetMaxCartesianEndEffectorSpeed
     */
    @Streamed

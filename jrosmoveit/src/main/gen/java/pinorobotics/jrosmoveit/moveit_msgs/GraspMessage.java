@@ -39,12 +39,12 @@ import java.util.Arrays;
 /**
  * Definition for moveit_msgs/Grasp
  * This message contains a description of a grasp that would be used
- * # with a particular end-effector to grasp an object, including how to
- * # approach it, grip it, etc.  This message does not contain any
- * # information about a "grasp point" (a position ON the object).
- * # Whatever generates this message should have already combined
- * # information about grasp points with information about the geometry
- * # of the end-effector to compute the grasp_pose in this message.
+ * with a particular end-effector to grasp an object, including how to
+ * approach it, grip it, etc.  This message does not contain any
+ * information about a "grasp point" (a position ON the object).
+ * Whatever generates this message should have already combined
+ * information about grasp points with information about the geometry
+ * of the end-effector to compute the grasp_pose in this message.
  */
 @MessageMetadata(
     type = GraspMessage.NAME,
@@ -112,7 +112,7 @@ public class GraspMessage implements Message {
    public GripperTranslationMessage post_place_retreat = new GripperTranslationMessage();
    
    /**
-    * the maximum contact force to use while grasping (<=0 to disable)
+    * the maximum contact force to use while grasping (less or equal to 0 to disable)
     */
    @Streamed
    public float max_contact_force;

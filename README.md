@@ -1,9 +1,12 @@
 **jrosmoveit** - Java module which allows to interact with ROS MoveIt
 
+# Requirements
+
+Java 11+
+
 # Download
 
 [Release versions](https://github.com/pinorobotics/jrosmoveit/releases)
-[Latest prerelease version](https://github.com/pinorobotics/jrosmoveit/tree/main/jrosmoveit/release)
 
 Or you can add dependency to it as follows:
 
@@ -15,19 +18,11 @@ dependencies {
 }
 ```
 
-# Development
+# Documentation
 
-Building **jrosmoveit** module locally and making changes to it (this is optional and not intended for **jrosmoveit** users).
+[Documentation](http://portal2.atwebpages.com/jrosmoveit)
 
-## With Eclipse
-
-- Build eclipse projects:
-
-``` bash
-gradle eclipse
-```
-
-- Import them into Eclipse
+[Development](DEVELOPMENT.md)
 
 # Contributors
 
