@@ -15,18 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 package pinorobotics.jrosmoveit;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public class JointModelGroup {
     private List<String> variableNames = new ArrayList<>();
-    
+
     public String getVariableName(int id) {
         return variableNames.get(id);
     }

@@ -15,12 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 package pinorobotics.jrosmoveit;
 
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public class RobotModel {
 
     private JointModelGroup modelGroup;
@@ -29,7 +28,7 @@ public class RobotModel {
     public RobotModel(String modelFrame) {
         this.modelFrame = modelFrame;
     }
-    
+
     public JointModelGroup getJointModelGroup(String planningGroup) {
         return modelGroup;
     }
@@ -37,5 +36,4 @@ public class RobotModel {
     public String getModelFrame() {
         return modelFrame;
     }
-
 }

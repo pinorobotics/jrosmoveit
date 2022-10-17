@@ -15,28 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 package pinorobotics.jrosmoveit.moveit_msgs;
 
-import pinorobotics.jrosactionlib.msgs.ActionDefinition;
-import pinorobotics.jrosactionlib.msgs.ActionGoalMessage;
-import pinorobotics.jrosactionlib.msgs.ActionResultMessage;
+import pinorobotics.jros1actionlib.actionlib_msgs.Action1Definition;
+import pinorobotics.jros1actionlib.actionlib_msgs.Action1GoalMessage;
+import pinorobotics.jros1actionlib.actionlib_msgs.Action1ResultMessage;
 
-public class ExecuteTrajectoryActionDefinition implements
-    ActionDefinition<ExecuteTrajectoryGoalMessage, ExecuteTrajectoryResultMessage>
-{
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
+public class ExecuteTrajectoryActionDefinition
+        implements Action1Definition<ExecuteTrajectoryGoalMessage, ExecuteTrajectoryResultMessage> {
 
     @Override
-    public Class<? extends ActionGoalMessage<ExecuteTrajectoryGoalMessage>> getActionGoalMessage() {
+    public Class<? extends Action1GoalMessage<ExecuteTrajectoryGoalMessage>>
+            getActionGoalMessage() {
         return ExecuteTrajectoryActionGoalMessage.class;
     }
 
     @Override
-    public Class<? extends ActionResultMessage<ExecuteTrajectoryResultMessage>> getActionResultMessage() {
+    public Class<? extends Action1ResultMessage<ExecuteTrajectoryResultMessage>>
+            getActionResultMessage() {
         return ExecuteTrajectoryActionResultMessage.class;
     }
-
 }

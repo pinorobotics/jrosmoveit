@@ -15,12 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 package pinorobotics.jrosmoveit.impl;
 
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public enum ActiveTargetType {
     JOINT,
     POSE,

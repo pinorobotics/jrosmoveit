@@ -1,14 +1,14 @@
 /*
  * Copyright 2021 jrosmoveit project
- * 
+ *
  * Website: https://github.com/pinorobotics/jrosmoveit
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,12 +20,11 @@
  * - aeon_flux <aeon_flux@eclipso.ch>
  */
 /**
- * <p>Java module which allows to interact with MoveIt
- * ROS (Robotic Operation System).</p>
- * 
+ * Java module which allows to interact with MoveIt ROS (Robotic Operation System).
+ *
  * @see <a href="https://github.com/pinorobotics/jrosmoveit/releases">Download</a>
  * @see <a href="https://github.com/pinorobotics/jrosmoveit">GitHub repository</a>
- * 
+ * @author aeon_flux aeon_flux@eclipso.ch
  */
 module jrosmoveit {
 
@@ -34,10 +33,10 @@ module jrosmoveit {
     // also read them
     requires transitive jrosclient;
     requires transitive jrosactionlib;
-    
     requires id.xfunction;
     requires id.kineticstreamer;
-    
+    requires jros1actionlib;
+
     exports pinorobotics.jrosmoveit;
     exports pinorobotics.jrosmoveit.moveit_msgs;
 }

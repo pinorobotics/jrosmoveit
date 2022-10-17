@@ -15,16 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 package pinorobotics.jrosmoveit.impl;
 
 import pinorobotics.jrosmoveit.RobotState;
 import pinorobotics.jrosmoveit.moveit_msgs.RobotStateMessage;
 
-public class Transformers {
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
+public class JRosMoveItTransformers {
 
     public RobotStateMessage toRobotStateMessage(RobotState state) {
         throw new UnsupportedOperationException();

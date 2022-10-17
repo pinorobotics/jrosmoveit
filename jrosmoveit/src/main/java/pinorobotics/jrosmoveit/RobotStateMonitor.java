@@ -15,55 +15,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 package pinorobotics.jrosmoveit;
 
+import id.jros1messages.sensor_msgs.JointStateMessage;
+import id.jrosclient.JRosClient;
+import id.jrosclient.TopicSubscriber;
+import id.xfunction.Preconditions;
+import id.xfunction.function.Unchecked;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow.Subscription;
 
-import id.jrosclient.JRosClient;
-import id.jrosclient.TopicSubscriber;
-import id.jrosmessages.sensor_msgs.JointStateMessage;
-import id.xfunction.XAsserts;
-import id.xfunction.function.Unchecked;
-
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public class RobotStateMonitor implements Closeable {
 
     private JRosClient client;
     private CompletableFuture<RobotState> robotState = new CompletableFuture<>();
     private TopicSubscriber<JointStateMessage> jointStateSubscriber;
     private boolean isStarted;
-    
+
     public RobotStateMonitor(JRosClient client) {
         this.client = client;
-        this.jointStateSubscriber = new TopicSubscriber<JointStateMessage>(JointStateMessage.class, "/joint_states") {
-            @Override
-            public void onNext(JointStateMessage jointState) {
-                var myState = robotState.isDone()? getCurrentRobotState(): new RobotState();
-                myState.setJointPositions(jointState.position);
-                if (!robotState.isDone()) {
-                    robotState.complete(myState);
-                }
-            }
-        };
+        this.jointStateSubscriber =
+                new TopicSubscriber<JointStateMessage>(JointStateMessage.class, "/joint_states") {
+                    @Override
+                    public void onNext(JointStateMessage jointState) {
+                        var myState =
+                                robotState.isDone() ? getCurrentRobotState() : new RobotState();
+                        myState.setJointPositions(jointState.position);
+                        if (!robotState.isDone()) {
+                            robotState.complete(myState);
+                        }
+                    }
+                };
     }
 
     public void start() throws Exception {
         client.subscribe(jointStateSubscriber);
         isStarted = true;
     }
-    
+
     public RobotState getCurrentRobotState() {
-        XAsserts.assertTrue(isStarted, "Monitor is not started");
+        Preconditions.isTrue(isStarted, "Monitor is not started");
         return Unchecked.get(robotState::get);
     }
 
     @Override
     public void close() throws IOException {
-        jointStateSubscriber.getSubscription().cancel();        
+        jointStateSubscriber.getSubscription().ifPresent(Subscription::cancel);
     }
 }

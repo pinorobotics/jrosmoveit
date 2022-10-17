@@ -15,16 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 package pinorobotics.jrosmoveit;
 
+import id.xfunction.XJson;
 import java.util.Arrays;
 
-import id.xfunction.XJson;
-
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public class RobotState implements Cloneable {
 
     private RobotModel model;

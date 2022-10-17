@@ -15,25 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 package pinorobotics.jrosmoveit;
 
+import id.jros1client.JRos1Client;
+import id.jros1messages.geometry_msgs.PoseStampedMessage;
+import id.jrosmessages.geometry_msgs.PoseMessage;
+import id.jrosmessages.primitives.Time;
+import id.jrosmessages.shape_msgs.SolidPrimitiveMessage;
+import id.jrosmessages.std_msgs.Int32Message;
+import id.xfunction.logging.XLogger;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
-
-import id.jrosclient.JRosClient;
-import id.jrosmessages.geometry_msgs.PoseMessage;
-import id.jrosmessages.geometry_msgs.PoseStampedMessage;
-import id.jrosmessages.primitives.Time;
-import id.jrosmessages.shape_msgs.SolidPrimitiveMessage;
-import id.jrosmessages.std_msgs.Int32Message;
-import id.xfunction.logging.XLogger;
+import pinorobotics.jros1actionlib.JRos1ActionClientFactory;
 import pinorobotics.jrosactionlib.JRosActionClient;
 import pinorobotics.jrosmoveit.exceptions.JRosMoveItException;
 import pinorobotics.jrosmoveit.impl.ActiveTargetType;
@@ -54,51 +50,65 @@ import pinorobotics.jrosmoveit.moveit_msgs.RobotStateMessage;
 
 /**
  * Client which allows to interact with ROS MoveIt.
+ *
+ * @author aeon_flux aeon_flux@eclipso.ch
  */
 public class JRosMoveIt implements Closeable {
 
     private static final XLogger LOGGER = XLogger.getLogger(JRosMoveIt.class);
     private JRosActionClient<MoveGroupGoalMessage, MoveGroupResultMessage> moveGroupActionClient;
-    private JRosActionClient<ExecuteTrajectoryGoalMessage, ExecuteTrajectoryResultMessage> executeTrajectoryActionClient;
+    private JRosActionClient<ExecuteTrajectoryGoalMessage, ExecuteTrajectoryResultMessage>
+            executeTrajectoryActionClient;
     private ActiveTargetType activeTarget = ActiveTargetType.JOINT;
 
-    private MotionPlanRequestMessage request = new MotionPlanRequestMessage()
-            .withNumPlanningAttempts(new Int32Message().withData(1))
-            .withMaxVelocityScalingFactor(0.1)
-            .withMaxAccelerationScalingFactor(0.1)
-            .withAllowedPlanningTime(5.0);
-    private MoveGroupGoalMessage goal = new MoveGroupGoalMessage()
-            .withPlanningOptions(new PlanningOptionsMessage()
-                .withLookAround(false)
-                .withReplan(false)
-                .withPlanningSceneDiff(new PlanningSceneMessage()
-                    .withIsDiff(true)
-                    .withRobotState(new RobotStateMessage()
-                        .withIsDiff(true))))
-            .withRequest(request);
+    private MotionPlanRequestMessage request =
+            new MotionPlanRequestMessage()
+                    .withNumPlanningAttempts(new Int32Message().withData(1))
+                    .withMaxVelocityScalingFactor(0.1)
+                    .withMaxAccelerationScalingFactor(0.1)
+                    .withAllowedPlanningTime(5.0);
+    private MoveGroupGoalMessage goal =
+            new MoveGroupGoalMessage()
+                    .withPlanningOptions(
+                            new PlanningOptionsMessage()
+                                    .withLookAround(false)
+                                    .withReplan(false)
+                                    .withPlanningSceneDiff(
+                                            new PlanningSceneMessage()
+                                                    .withIsDiff(true)
+                                                    .withRobotState(
+                                                            new RobotStateMessage()
+                                                                    .withIsDiff(true))))
+                    .withRequest(request);
     private Map<String, PoseStampedMessage> poseTargets = new HashMap<>();
-    
+
     private double toleranceAngleInDeg = 0.001;
     private double tolerancePoseInMm = 0.0000001;
     private RobotModel model;
 
     /**
      * Creates a new instance of the client
+     *
      * @param client ROS client
      */
-    public JRosMoveIt(JRosClient client, String groupName, RobotModel model) {
+    public JRosMoveIt(JRos1Client client, String groupName, RobotModel model) {
         this.model = model;
         request.group_name.data = groupName;
-        moveGroupActionClient = new JRosActionClient<>(
-                client, new MoveGroupActionDefinition(), "/move_group");
-        executeTrajectoryActionClient = new JRosActionClient<>(
-                client, new ExecuteTrajectoryActionDefinition(), "/execute_trajectory");
+        moveGroupActionClient =
+                new JRos1ActionClientFactory()
+                        .createClient(client, new MoveGroupActionDefinition(), "/move_group");
+        executeTrajectoryActionClient =
+                new JRos1ActionClientFactory()
+                        .createClient(
+                                client,
+                                new ExecuteTrajectoryActionDefinition(),
+                                "/execute_trajectory");
     }
-    
+
     /**
-     * Asks MoveIt to create a plan for moving robot to target pose.
-     * MoveIt will calculate and create a trajectory.
-     * It will publish it to display_planned_path topic which can be visualized in RViz
+     * Asks MoveIt to create a plan for moving robot to target pose. MoveIt will calculate and
+     * create a trajectory. It will publish it to display_planned_path topic which can be visualized
+     * in RViz
      */
     public Plan plan() throws JRosMoveItException {
         LOGGER.entering("plan");
@@ -106,7 +116,7 @@ public class JRosMoveIt implements Closeable {
         populateMotionPlanRequest();
         MoveGroupResultMessage result;
         try {
-            result = moveGroupActionClient.sendGoal(goal).get();
+            result = moveGroupActionClient.sendGoalAsync(goal).get();
         } catch (Exception e) {
             throw new JRosMoveItException(e);
         }
@@ -117,8 +127,8 @@ public class JRosMoveIt implements Closeable {
     }
 
     /**
-     * Let MoveIt to execute given plan which will cause robot to change its state
-     * to the new target pose state.
+     * Let MoveIt to execute given plan which will cause robot to change its state to the new target
+     * pose state.
      */
     public void execute(Plan plan) throws JRosMoveItException {
         LOGGER.entering("execute");
@@ -126,7 +136,7 @@ public class JRosMoveIt implements Closeable {
         goal.trajectory = plan.getPlannedTrajectory();
         ExecuteTrajectoryResultMessage result;
         try {
-            result = executeTrajectoryActionClient.sendGoal(goal).get();
+            result = executeTrajectoryActionClient.sendGoalAsync(goal).get();
         } catch (Exception e) {
             throw new JRosMoveItException(e);
         }
@@ -135,8 +145,8 @@ public class JRosMoveIt implements Closeable {
     }
 
     /**
-     * This method combines two actions like calculating plan and executing it
-     * in one single action. It will do only one call to MoveIt instead of two.
+     * This method combines two actions like calculating plan and executing it in one single action.
+     * It will do only one call to MoveIt instead of two.
      */
     public void move() throws JRosMoveItException {
         LOGGER.entering("move");
@@ -144,61 +154,66 @@ public class JRosMoveIt implements Closeable {
         populateMotionPlanRequest();
         MoveGroupResultMessage result;
         try {
-            result = moveGroupActionClient.sendGoal(goal).get();
+            result = moveGroupActionClient.sendGoalAsync(goal).get();
         } catch (Exception e) {
             throw new JRosMoveItException(e);
         }
         verifyResult(result.error_code);
     }
-    
+
     private Plan createPlan(MoveGroupResultMessage result) {
-        var plan = new Plan()
-                .withTrajectory(result.planned_trajectory)
-                .withStartState(result.trajectory_start)
-                .withPlanningTime(result.planning_time);
+        var plan =
+                new Plan()
+                        .withTrajectory(result.planned_trajectory)
+                        .withStartState(result.trajectory_start)
+                        .withPlanningTime(result.planning_time);
         return plan;
     }
 
-    /**
-     * http://docs.ros.org/en/melodic/api/moveit_msgs/html/definePlanningRequest.html
-     */
+    /** http://docs.ros.org/en/melodic/api/moveit_msgs/html/definePlanningRequest.html */
     private void populateMotionPlanRequest() {
         switch (activeTarget) {
-        case POSE: {
-            for (var entry: poseTargets.entrySet()) {
-                var goalConstraints = request.goal_constraints;
-                if (goalConstraints.length != 1) {
-                    goalConstraints = Stream.of(new ConstraintsMessage())
-                            .toArray(ConstraintsMessage[]::new);
-                    request.goal_constraints = goalConstraints;
+            case POSE:
+                {
+                    for (var entry : poseTargets.entrySet()) {
+                        var goalConstraints = request.goal_constraints;
+                        if (goalConstraints.length != 1) {
+                            goalConstraints =
+                                    Stream.of(new ConstraintsMessage())
+                                            .toArray(ConstraintsMessage[]::new);
+                            request.goal_constraints = goalConstraints;
+                        }
+                        populateGoalConstraints(
+                                goalConstraints[0], entry.getKey(), entry.getValue());
+                    }
+                    break;
                 }
-                populateGoalConstraints(goalConstraints[0], entry.getKey(), entry.getValue());
-            }
-            break;
-        }
-        default: throw new UnsupportedOperationException();
+            default:
+                throw new UnsupportedOperationException();
         }
     }
 
-    private void populateGoalConstraints(ConstraintsMessage goalConstraints, String linkName,
-            PoseStampedMessage pose) {
+    private void populateGoalConstraints(
+            ConstraintsMessage goalConstraints, String linkName, PoseStampedMessage pose) {
         if (goalConstraints.position_constraints.length != 1) {
-            goalConstraints.position_constraints = Stream.of(new PositionConstraintMessage())
-                    .toArray(PositionConstraintMessage[]::new);
+            goalConstraints.position_constraints =
+                    Stream.of(new PositionConstraintMessage())
+                            .toArray(PositionConstraintMessage[]::new);
         }
         populatePositionConstraints(goalConstraints.position_constraints[0], linkName, pose);
-        
-        
+
         if (goalConstraints.orientation_constraints.length != 1) {
-            goalConstraints.orientation_constraints = Stream.of(new OrientationConstraintMessage())
-                    .toArray(OrientationConstraintMessage[]::new);
+            goalConstraints.orientation_constraints =
+                    Stream.of(new OrientationConstraintMessage())
+                            .toArray(OrientationConstraintMessage[]::new);
         }
         populateOrientationConstraints(goalConstraints.orientation_constraints[0], linkName, pose);
     }
 
-
-    private void populateOrientationConstraints(OrientationConstraintMessage orientationConstraint,
-            String linkName, PoseStampedMessage pose) {
+    private void populateOrientationConstraints(
+            OrientationConstraintMessage orientationConstraint,
+            String linkName,
+            PoseStampedMessage pose) {
         orientationConstraint.link_name.withData(linkName);
         orientationConstraint.header = pose.header;
         orientationConstraint.orientation = pose.pose.orientation;
@@ -208,8 +223,10 @@ public class JRosMoveIt implements Closeable {
         orientationConstraint.weight = 1.0;
     }
 
-    private void populatePositionConstraints(PositionConstraintMessage positionConstraint,
-            String linkName, PoseStampedMessage pose) {
+    private void populatePositionConstraints(
+            PositionConstraintMessage positionConstraint,
+            String linkName,
+            PoseStampedMessage pose) {
         positionConstraint.link_name.withData(linkName);
 
         // reset all to 0 since those values could be changed previously
@@ -221,7 +238,7 @@ public class JRosMoveIt implements Closeable {
             primitives = new SolidPrimitiveMessage[1];
             positionConstraint.constraint_region.primitives = primitives;
         }
-        
+
         var sphere = primitives[0];
         if (sphere == null) {
             sphere = new SolidPrimitiveMessage();
@@ -234,13 +251,13 @@ public class JRosMoveIt implements Closeable {
             sphereDims = new double[sphereDimsCount];
             sphere.dimensions = sphereDims;
         }
-        sphereDims[SolidPrimitiveMessage.SphereDimensionType.SPHERE_RADIUS.ordinal()] = tolerancePoseInMm;
+        sphereDims[SolidPrimitiveMessage.SphereDimensionType.SPHERE_RADIUS.ordinal()] =
+                tolerancePoseInMm;
 
         positionConstraint.header = pose.header;
         var primitivePoses = positionConstraint.constraint_region.primitive_poses;
         if (primitivePoses.length != 1) {
-            primitivePoses = Stream.of(new PoseMessage())
-                    .toArray(PoseMessage[]::new);
+            primitivePoses = Stream.of(new PoseMessage()).toArray(PoseMessage[]::new);
             positionConstraint.constraint_region.primitive_poses = primitivePoses;
         }
         primitivePoses[0].position = pose.pose.position;
@@ -251,7 +268,6 @@ public class JRosMoveIt implements Closeable {
         positionConstraint.constraint_region.primitive_poses[0].orientation.z = 0.0;
         positionConstraint.constraint_region.primitive_poses[0].orientation.w = 1.0;
         positionConstraint.weight = 1.0;
-
     }
 
     @Override
@@ -262,9 +278,7 @@ public class JRosMoveIt implements Closeable {
         LOGGER.exiting("close");
     }
 
-    /**
-     * Set the goal pose of the end-effector
-     */
+    /** Set the goal pose of the end-effector */
     public void setPoseTarget(PoseMessage targetPose, String endEffectorLink) {
         var stampedMessage = toStampedPose(targetPose);
         activeTarget = ActiveTargetType.POSE;
@@ -279,7 +293,7 @@ public class JRosMoveIt implements Closeable {
         stampedMessage.pose = poseMessage;
         return stampedMessage;
     }
-    
+
     private void verifyResult(MoveItErrorCodesMessage code) throws JRosMoveItException {
         if (!code.isOk()) {
             throw new JRosMoveItException(code.getCodeType().toString());

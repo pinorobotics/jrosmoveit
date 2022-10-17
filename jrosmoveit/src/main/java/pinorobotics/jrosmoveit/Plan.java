@@ -15,16 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 package pinorobotics.jrosmoveit;
 
 import id.xfunction.XJson;
 import pinorobotics.jrosmoveit.moveit_msgs.RobotStateMessage;
 import pinorobotics.jrosmoveit.moveit_msgs.RobotTrajectoryMessage;
 
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public class Plan {
 
     private RobotStateMessage trajectoryStart;
@@ -61,8 +60,7 @@ public class Plan {
     @Override
     public String toString() {
         return XJson.asString(
-            "trajectoryStart", trajectoryStart,
-            "plannedTrajectory", plannedTrajectory
-        );
+                "trajectoryStart", trajectoryStart,
+                "plannedTrajectory", plannedTrajectory);
     }
 }

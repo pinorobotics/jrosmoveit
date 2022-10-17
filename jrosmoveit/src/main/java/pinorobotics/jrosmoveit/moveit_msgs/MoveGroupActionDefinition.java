@@ -15,26 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 package pinorobotics.jrosmoveit.moveit_msgs;
 
-import pinorobotics.jrosactionlib.msgs.ActionDefinition;
-import pinorobotics.jrosactionlib.msgs.ActionGoalMessage;
-import pinorobotics.jrosactionlib.msgs.ActionResultMessage;
+import pinorobotics.jros1actionlib.actionlib_msgs.Action1Definition;
+import pinorobotics.jros1actionlib.actionlib_msgs.Action1GoalMessage;
+import pinorobotics.jros1actionlib.actionlib_msgs.Action1ResultMessage;
 
-public class MoveGroupActionDefinition implements ActionDefinition<MoveGroupGoalMessage, MoveGroupResultMessage> {
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
+public class MoveGroupActionDefinition
+        implements Action1Definition<MoveGroupGoalMessage, MoveGroupResultMessage> {
 
     @Override
-    public Class<? extends ActionGoalMessage<MoveGroupGoalMessage>> getActionGoalMessage() {
+    public Class<? extends Action1GoalMessage<MoveGroupGoalMessage>> getActionGoalMessage() {
         return MoveGroupActionGoalMessage.class;
     }
 
     @Override
-    public Class<? extends ActionResultMessage<MoveGroupResultMessage>> getActionResultMessage() {
+    public Class<? extends Action1ResultMessage<MoveGroupResultMessage>> getActionResultMessage() {
         return MoveGroupActionResultMessage.class;
     }
-
 }

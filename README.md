@@ -1,4 +1,4 @@
-**jrosmoveit** - Java module which allows to interact with ROS MoveIt
+**jrosmoveit** - Java module which allows to interact with MoveIt in ROS1
 
 # Requirements
 

@@ -1,4 +1,4 @@
-Building **jrosmoveit** module locally and making changes to it (this is optional and not intended for **jrosmoveit** users).
+Building module locally and making changes to it (this is optional and not intended for users).
 
 ## With Eclipse
 
