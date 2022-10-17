@@ -26,6 +26,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow.Subscription;
+import pinorobotics.jrosmoveit.entities.RobotState;
 
 /**
  * @author aeon_flux aeon_flux@eclipso.ch

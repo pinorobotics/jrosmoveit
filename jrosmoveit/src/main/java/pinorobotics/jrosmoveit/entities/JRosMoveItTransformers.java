@@ -15,25 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jrosmoveit;
+package pinorobotics.jrosmoveit.entities;
+
+import pinorobotics.jrosmoveit.moveit_msgs.RobotStateMessage;
 
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public class RobotModel {
+public class JRosMoveItTransformers {
 
-    private JointModelGroup modelGroup;
-    private String modelFrame;
-
-    public RobotModel(String modelFrame) {
-        this.modelFrame = modelFrame;
-    }
-
-    public JointModelGroup getJointModelGroup(String planningGroup) {
-        return modelGroup;
-    }
-
-    public String getModelFrame() {
-        return modelFrame;
+    public RobotStateMessage toRobotStateMessage(RobotState state) {
+        throw new UnsupportedOperationException();
     }
 }

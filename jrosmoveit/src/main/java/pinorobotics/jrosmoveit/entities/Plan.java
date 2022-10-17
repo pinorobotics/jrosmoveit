@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jrosmoveit;
+package pinorobotics.jrosmoveit.entities;
 
 import id.xfunction.XJson;
 import pinorobotics.jrosmoveit.moveit_msgs.RobotStateMessage;

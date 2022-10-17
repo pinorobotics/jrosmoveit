@@ -38,5 +38,6 @@ module jrosmoveit {
     requires jros1actionlib;
 
     exports pinorobotics.jrosmoveit;
+    exports pinorobotics.jrosmoveit.entities;
     exports pinorobotics.jrosmoveit.moveit_msgs;
 }

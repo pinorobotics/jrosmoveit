@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.stream.Stream;
 import pinorobotics.jros1actionlib.JRos1ActionClientFactory;
 import pinorobotics.jrosactionlib.JRosActionClient;
+import pinorobotics.jrosmoveit.entities.Plan;
+import pinorobotics.jrosmoveit.entities.RobotModel;
 import pinorobotics.jrosmoveit.exceptions.JRosMoveItException;
 import pinorobotics.jrosmoveit.impl.ActiveTargetType;
 import pinorobotics.jrosmoveit.moveit_msgs.ConstraintsMessage;
