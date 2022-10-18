@@ -15,13 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - aeon_flux <aeon_flux@eclipso.ch>
- */
 /**
- * Java module which allows to interact with MoveIt ROS (Robotic Operation System).
+ * Java module which allows to interact with MoveIt in ROS1 (Robot Operating System).
  *
+ * <p>For usage examples see <a href="http://pinoweb.freetzi.com/jrosmoveit">Documentation</a>
+ *
+ * @see <a href="http://pinoweb.freetzi.com/jrosmoveit">Documentation</a>
  * @see <a href="https://github.com/pinorobotics/jrosmoveit/releases">Download</a>
  * @see <a href="https://github.com/pinorobotics/jrosmoveit">GitHub repository</a>
  * @author aeon_flux aeon_flux@eclipso.ch
