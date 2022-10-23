@@ -132,4 +132,18 @@ public class JRosMoveItIntegrationTests {
         var endTransform = tf2.lookupTransform("world", "panda_hand").transform.transform;
         Assertions.assertEquals(startTransform.toString(), endTransform.toString());
     }
+
+    @Test
+    @Order(3)
+    public void test_documentation_example() throws Exception {
+        try (var client = new JRos1ClientFactory().createClient("http://localhost:11311/");
+                var moveIt = new JRosMoveIt(client, "panda_arm", new RobotModel("world"))) {
+            var targetPose = new PoseMessage();
+            targetPose.position = transformer.toPointMessage(new Point(0.28, -0.2, 0.5));
+            targetPose.orientation = new QuaternionMessage().withW(-1.0);
+            moveIt.setPoseTarget(targetPose, "panda_hand");
+            var plan = moveIt.plan();
+            moveIt.execute(plan);
+        }
+    }
 }
