@@ -1,4 +1,8 @@
-**jrosmoveit** - Java module which allows to interact with MoveIt in ROS1
+**jrosmoveit** - Java module which allows to interact with MoveIt in ROS. It contains only interfaces and classes which are agnostic to version of ROS. Its implementations available separately:
+
+For ROS2 see [jros2moveit](https://github.com/pinorobotics/jros2moveit)
+
+For ROS1 see [jros1moveit](https://github.com/pinorobotics/jros1moveit)
 
 # Requirements
 

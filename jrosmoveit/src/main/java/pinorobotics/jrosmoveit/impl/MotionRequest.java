@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 jrosmoveit project
+ * Copyright 2022 jrosmoveit project
  * 
  * Website: https://github.com/pinorobotics/jrosmoveit
  * 
@@ -15,13 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jrosmoveit.entities;
+package pinorobotics.jrosmoveit.impl;
+
+import id.jrosmessages.geometry_msgs.PoseMessage;
+import java.util.Map;
 
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public interface Plan {
-    Plan withPlanningTime(double planningTime);
-
-    double getPlanningTime();
-}
+public record MotionRequest(ActiveTargetType activeTarget, Map<String, PoseMessage> poseTargets) {}

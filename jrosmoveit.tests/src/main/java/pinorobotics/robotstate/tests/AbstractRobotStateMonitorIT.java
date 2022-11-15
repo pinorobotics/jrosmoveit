@@ -15,13 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jrosmoveit.entities;
+package pinorobotics.robotstate.tests;
 
-/**
- * @author aeon_flux aeon_flux@eclipso.ch
- */
-public interface Plan {
-    Plan withPlanningTime(double planningTime);
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import pinorobotics.robotstate.RobotStateMonitor;
 
-    double getPlanningTime();
+public abstract class AbstractRobotStateMonitorIT {
+
+    @Test
+    public void test_robot_state_monitor() throws Exception {
+        try (var monitor = createMonitor()) {
+            monitor.start();
+            var state = monitor.getLastRobotState();
+            Assertions.assertEquals(expectedState(), state.toString());
+        }
+    }
+
+    protected abstract RobotStateMonitor<?> createMonitor();
+
+    protected abstract String expectedState();
 }

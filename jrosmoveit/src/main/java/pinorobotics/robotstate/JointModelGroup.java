@@ -15,13 +15,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jrosmoveit.entities;
+package pinorobotics.robotstate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public interface Plan {
-    Plan withPlanningTime(double planningTime);
+public class JointModelGroup {
+    private List<String> variableNames = new ArrayList<>();
 
-    double getPlanningTime();
+    public String getVariableName(int id) {
+        return variableNames.get(id);
+    }
+
+    public int getNumOfJoints() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public double getJointPosition(int i) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }

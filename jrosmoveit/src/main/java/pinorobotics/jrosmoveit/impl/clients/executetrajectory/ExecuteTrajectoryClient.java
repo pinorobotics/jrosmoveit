@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 jrosmoveit project
+ * Copyright 2022 jrosmoveit project
  * 
  * Website: https://github.com/pinorobotics/jrosmoveit
  * 
@@ -15,13 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jrosmoveit.entities;
+package pinorobotics.jrosmoveit.impl.clients.executetrajectory;
+
+import pinorobotics.jrosmoveit.entities.Plan;
+import pinorobotics.jrosmoveit.exceptions.JRosMoveItException;
 
 /**
- * @author aeon_flux aeon_flux@eclipso.ch
+ * @author lambdaprime intid@protonmail.com
  */
-public interface Plan {
-    Plan withPlanningTime(double planningTime);
-
-    double getPlanningTime();
+public interface ExecuteTrajectoryClient<P extends Plan> extends AutoCloseable {
+    void execute(P plan) throws JRosMoveItException;
 }

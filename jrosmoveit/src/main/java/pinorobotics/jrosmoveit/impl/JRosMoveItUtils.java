@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 jrosmoveit project
+ * Copyright 2022 jrosmoveit project
  * 
  * Website: https://github.com/pinorobotics/jrosmoveit
  * 
@@ -15,13 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jrosmoveit.entities;
+package pinorobotics.jrosmoveit.impl;
+
+import pinorobotics.jrosmoveit.exceptions.JRosMoveItException;
+import pinorobotics.jrosmoveit.moveit_msgs.MoveItErrorCodesMessage;
 
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public interface Plan {
-    Plan withPlanningTime(double planningTime);
+public class JRosMoveItUtils {
 
-    double getPlanningTime();
+    public void verifyResult(MoveItErrorCodesMessage code) throws JRosMoveItException {
+        if (!code.isOk()) {
+            throw new JRosMoveItException(code.getCodeType().toString());
+        }
+    }
 }

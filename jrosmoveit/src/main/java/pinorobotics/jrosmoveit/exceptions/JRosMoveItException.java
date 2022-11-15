@@ -20,7 +20,7 @@ package pinorobotics.jrosmoveit.exceptions;
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public class JRosMoveItException extends Exception {
+public class JRosMoveItException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

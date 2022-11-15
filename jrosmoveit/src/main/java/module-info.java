@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 /**
- * Java module which allows to interact with MoveIt in ROS1 (Robot Operating System).
+ * Java module which allows to interact with MoveIt in ROS (Robot Operating System). It contains
+ * only interfaces and classes which are agnostic to ROS version.
  *
  * <p>For usage examples see <a href="http://pinoweb.freetzi.com/jrosmoveit">Documentation</a>
  *
@@ -33,10 +34,20 @@ module jrosmoveit {
     requires transitive jrosclient;
     requires transitive jrosactionlib;
     requires id.xfunction;
-    requires id.kineticstreamer;
-    requires jros1actionlib;
+    requires jrosmessages;
 
     exports pinorobotics.jrosmoveit;
     exports pinorobotics.jrosmoveit.entities;
     exports pinorobotics.jrosmoveit.moveit_msgs;
+    exports pinorobotics.jrosmoveit.exceptions;
+    exports pinorobotics.jrosmoveit.impl to
+            jros1moveit,
+            jros2moveit;
+    exports pinorobotics.jrosmoveit.impl.clients.executetrajectory to
+            jros1moveit,
+            jros2moveit;
+    exports pinorobotics.jrosmoveit.impl.clients.movegroup to
+            jros1moveit,
+            jros2moveit;
+    exports pinorobotics.robotstate;
 }

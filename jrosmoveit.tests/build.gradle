@@ -12,21 +12,17 @@ eclipse.classpath.file {
 }
 
 dependencies {
-    testImplementation project(':jrosmoveit')
-    testImplementation 'io.github.pinorobotics:jros1rviztools:1.0'
-    testImplementation 'io.github.pinorobotics:jrostf2:1.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.4.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
-    testRuntimeOnly 'org.junit.platform:junit-platform-commons:1.7.0'
-}
+    implementation project(':jrosmoveit')
+    implementation 'io.github.pinorobotics:jrosrviztools:2.0-SNAPSHOT'
+    implementation 'io.github.pinorobotics:jrostf2:3.0-SNAPSHOT'
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+    implementation 'org.junit.jupiter:junit-jupiter-params:5.4.2'
 
-java {
-    // disable Gradle modularity support since it is not working properly
-    // for non modules like xmlrpc and setup module path manually later:
-    // https://github.com/gradle/gradle/issues/17609
-    // https://github.com/gradle/gradle/issues/12630
-    modularity.inferModulePath = false
+    apiElements project(':jrosmoveit')
+    apiElements 'io.github.pinorobotics:jrosrviztools:2.0-SNAPSHOT'
+    apiElements 'io.github.pinorobotics:jrostf2:3.0-SNAPSHOT'
+    apiElements 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+    apiElements 'org.junit.jupiter:junit-jupiter-params:5.4.2'
 }
 
 compileTestJava {
@@ -38,13 +34,43 @@ compileTestJava {
     }
 }
 
-test {
-    useJUnitPlatform()
-
-    testLogging {
-        events "started", "failed"
-    }
-}
-
 // run spotless and format code before the build
 testClasses.dependsOn spotlessApply
+
+if (project.hasProperty('publish')) {
+
+  apply plugin: 'maven-publish'
+
+  publishing {
+    publications {
+      mavenJava(MavenPublication) {
+        artifactId = 'jrosmoveit.tests'
+        groupId = 'io.github.pinorobotics'
+        from components.java
+        pom {
+          name = 'jrosmoveit'
+          description = 'jrosmoveit.tests'
+          url = 'http://pinoweb.freetzi.com/jrosmoveit'
+
+          licenses {
+            license {
+              name = 'The Apache License, Version 2.0'
+              url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+          }
+
+          developers {
+            developer {
+              id = 'aeon'
+              email = 'aeon_flux@eclipso.ch'
+            }
+          }
+
+          scm {
+            url = 'https://github.com/pinorobotics/jrosmoveit'
+          }
+        }
+      }
+    }   
+  }
+}

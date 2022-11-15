@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 jrosmoveit project
+ * Copyright 2022 jrosmoveit project
  * 
  * Website: https://github.com/pinorobotics/jrosmoveit
  * 
@@ -15,13 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jrosmoveit.entities;
+package pinorobotics.jrosmoveit.impl;
 
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public interface Plan {
-    Plan withPlanningTime(double planningTime);
+public interface JRosMoveItConstants {
 
-    double getPlanningTime();
+    String EXECUTE_TRAJECTORY_ACTION_NAME = "/execute_trajectory";
+    double DEFAULT_TOLERANCE_ANGLE_IN_DEG = 0.001;
+    double DEFAULT_TOLERANCE_POSE_IN_MM = 0.0000001;
 }

@@ -15,13 +15,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jrosmoveit.entities;
+package pinorobotics.robotstate;
+
+import id.xfunction.XJson;
+import java.util.Arrays;
 
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public interface Plan {
-    Plan withPlanningTime(double planningTime);
+public class RobotState implements Cloneable {
 
-    double getPlanningTime();
+    private RobotModel model;
+    private double[] positions;
+
+    public void setJointPositions(double[] positions) {
+        this.positions = positions;
+    }
+
+    public RobotModel getModel() {
+        return model;
+    }
+
+    @Override
+    public String toString() {
+        return XJson.asString("positions", positions);
+    }
+
+    @Override
+    public RobotState clone() throws CloneNotSupportedException {
+        var tmp = new RobotState();
+        tmp.setJointPositions(Arrays.copyOf(positions, positions.length));
+        return tmp;
+    }
 }
