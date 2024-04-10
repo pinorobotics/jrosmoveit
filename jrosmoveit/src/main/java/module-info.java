@@ -16,11 +16,13 @@
  * limitations under the License.
  */
 /**
- * Java module which allows to interact with MoveIt in ROS (Robot Operating System). It contains
- * only interfaces and classes which are agnostic to ROS version.
+ * Java module which allows to interact with <a href="https://moveit.ros.org/">MoveIt</a> in ROS
+ * (Robot Operating System). It contains only interfaces and classes which are agnostic to ROS
+ * version.
  *
  * <p>For usage examples see <a href="http://pinoweb.freetzi.com/jrosmoveit">Documentation</a>
  *
+ * @see <a href="https://moveit.ros.org/">MoveIt</a>
  * @see <a href="http://pinoweb.freetzi.com/jrosmoveit">Documentation</a>
  * @see <a href="https://github.com/pinorobotics/jrosmoveit/releases">Download</a>
  * @see <a href="https://github.com/pinorobotics/jrosmoveit">GitHub repository</a>

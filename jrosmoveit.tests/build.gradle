@@ -1,28 +1,24 @@
 plugins {
-    id 'com.diffplug.spotless'
+  id 'com.diffplug.spotless'
 }
 
-apply plugin : 'eclipse'
-
 eclipse.classpath.file {
-    // instruct eclipse plugin to put everything to module path
-    whenMerged {
-        entries.findAll { it.kind == 'lib' }.each { it.entryAttributes['module'] = 'true' }
-    }
+  // instruct eclipse plugin to put everything to module path
+  whenMerged {
+    entries.findAll { it.kind == 'lib' }.each { it.entryAttributes['module'] = 'true' }
+  }
 }
 
 dependencies {
-    implementation project(':jrosmoveit')
-    implementation 'io.github.pinorobotics:jrosrviztools:2.0-SNAPSHOT'
-    implementation 'io.github.pinorobotics:jrostf2:3.0-SNAPSHOT'
-    implementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
-    implementation 'org.junit.jupiter:junit-jupiter-params:5.4.2'
+  implementation project(':jrosmoveit')
+  implementation 'io.github.pinorobotics:jrosrviztools:2.0-SNAPSHOT'
+  implementation 'io.github.pinorobotics:jrostf2:3.0-SNAPSHOT'
 
-    apiElements project(':jrosmoveit')
-    apiElements 'io.github.pinorobotics:jrosrviztools:2.0-SNAPSHOT'
-    apiElements 'io.github.pinorobotics:jrostf2:3.0-SNAPSHOT'
-    apiElements 'org.junit.jupiter:junit-jupiter-api:5.4.2'
-    apiElements 'org.junit.jupiter:junit-jupiter-params:5.4.2'
+  def junitVersion = "5.8.1"
+  implementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+  implementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
+  runtimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+  runtimeOnly "org.junit.platform:junit-platform-commons:1.7.0"
 }
 
 compileTestJava {
