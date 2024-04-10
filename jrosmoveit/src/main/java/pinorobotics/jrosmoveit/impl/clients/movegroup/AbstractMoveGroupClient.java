@@ -41,7 +41,7 @@ public abstract class AbstractMoveGroupClient<
     /**
      * Creates a new instance of the client
      *
-     * @param client ROS client
+     * @param moveGroupActionClient ROS client
      */
     public AbstractMoveGroupClient(JRosActionClient<G, R> moveGroupActionClient) {
         this.moveGroupActionClient = moveGroupActionClient;

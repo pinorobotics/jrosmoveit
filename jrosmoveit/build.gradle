@@ -50,14 +50,19 @@ sourceSets {
 }
 
 javadoc {
-    options.noTimestamp = true
-    options.noQualifiers = ["all"]
-    options.noTree = true
-    options.noIndex = true
-    options.noNavBar = true
-    // ignore missing @return, @param etc
-    options.addBooleanOption('Xdoclint:all,-missing', true)
-    exclude 'pinorobotics/jrosmoveit/impl/**'
+  options.noTimestamp = true
+  options.noQualifiers = ["all"]
+  options.noTree = true
+  options.noIndex = true
+  options.noNavBar = true
+  // ignore missing @return, @param etc
+  options.addBooleanOption('Xdoclint:all,-missing', true)
+  // should point to location of element-list files
+  options.addMultilineStringsOption("link").value = [
+    "http://portal2.atwebpages.com/jrosclient/javadoc/jrosclient/",
+    "http://portal2.atwebpages.com/jrosclient/javadoc/jrosmessages/",
+    "http://pinoweb.freetzi.com/jrosactionlib/javadoc/jrosactionlib/",
+  ]
 }
 
 def packageDir = "$buildDir/package/${projectName}"
@@ -85,7 +90,7 @@ task cleanRelease(type: Delete) {
   delete "$projectDir/release/*-SNAPSHOT.zip"
 }
 
-createRelease.dependsOn createPackage
+createRelease.dependsOn createPackage, javadoc
 assemble.dependsOn createRelease
 clean.dependsOn cleanRelease
 

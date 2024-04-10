@@ -41,7 +41,7 @@ public abstract class AbstractExecuteTrajectoryClient<
     /**
      * Creates a new instance of the client
      *
-     * @param client ROS client
+     * @param executeTrajectoryActionClient ROS client
      */
     public AbstractExecuteTrajectoryClient(JRosActionClient<G, R> executeTrajectoryActionClient) {
         this.executeTrajectoryActionClient = executeTrajectoryActionClient;

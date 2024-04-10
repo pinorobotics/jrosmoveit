@@ -41,11 +41,7 @@ public abstract class AbstractJRosMoveIt<P extends Plan> implements JRosMoveIt<P
     private ActiveTargetType activeTarget = ActiveTargetType.JOINT;
     private Map<String, PoseMessage> poseTargets = new HashMap<>();
 
-    /**
-     * Creates a new instance of the client
-     *
-     * @param client ROS client
-     */
+    /** Creates a new instance of the client */
     public AbstractJRosMoveIt(
             MoveGroupClient<P> moveGroupActionClient,
             ExecuteTrajectoryClient executeTrajectoryActionClient) {
