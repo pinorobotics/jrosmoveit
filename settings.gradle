@@ -1,2 +1,2 @@
-include 'jrosmoveit'
-include 'jrosmoveit.tests'
+include "${zzName}"
+include "${zzName}.tests"
