@@ -27,6 +27,7 @@ import java.util.Objects;
 /** Definition for moveit_msgs/AllowedCollisionMatrix */
 @MessageMetadata(
         name = AllowedCollisionMatrixMessage.NAME,
+        fields = {"entry_names", "entry_values", "default_entry_names", "default_entry_values"},
         md5sum = "aedce13587eef0d79165a075659c1879")
 public class AllowedCollisionMatrixMessage implements Message {
 

@@ -24,7 +24,10 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /** Definition for moveit_msgs/JointConstraint */
-@MessageMetadata(name = JointConstraintMessage.NAME, md5sum = "c02a15146bec0ce13564807805b008f0")
+@MessageMetadata(
+        name = JointConstraintMessage.NAME,
+        fields = {"joint_name", "position", "tolerance_above", "tolerance_below", "weight"},
+        md5sum = "c02a15146bec0ce13564807805b008f0")
 public class JointConstraintMessage implements Message {
 
     static final String NAME = "moveit_msgs/JointConstraint";

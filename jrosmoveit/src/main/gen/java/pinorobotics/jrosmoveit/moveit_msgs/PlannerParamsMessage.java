@@ -25,7 +25,10 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /** Definition for moveit_msgs/PlannerParams */
-@MessageMetadata(name = PlannerParamsMessage.NAME, md5sum = "cebdf4927996b9026bcf59a160d64145")
+@MessageMetadata(
+        name = PlannerParamsMessage.NAME,
+        fields = {"keys", "values", "descriptions"},
+        md5sum = "cebdf4927996b9026bcf59a160d64145")
 public class PlannerParamsMessage implements Message {
 
     static final String NAME = "moveit_msgs/PlannerParams";

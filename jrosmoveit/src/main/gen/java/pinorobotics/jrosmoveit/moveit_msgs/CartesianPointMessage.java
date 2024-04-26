@@ -28,7 +28,10 @@ import java.util.Objects;
 /**
  * Definition for moveit_msgs/CartesianPoint This message defines a point in a cartesian trajectory
  */
-@MessageMetadata(name = CartesianPointMessage.NAME, md5sum = "d3c213cdb4382c43adbff1f2dd2cf669")
+@MessageMetadata(
+        name = CartesianPointMessage.NAME,
+        fields = {"pose", "velocity", "acceleration"},
+        md5sum = "d3c213cdb4382c43adbff1f2dd2cf669")
 public class CartesianPointMessage implements Message {
 
     static final String NAME = "moveit_msgs/CartesianPoint";

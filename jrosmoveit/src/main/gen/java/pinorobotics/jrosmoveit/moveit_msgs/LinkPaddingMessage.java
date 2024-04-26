@@ -24,7 +24,10 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /** Definition for moveit_msgs/LinkPadding */
-@MessageMetadata(name = LinkPaddingMessage.NAME, md5sum = "b3ea75670df55c696fedee97774d5947")
+@MessageMetadata(
+        name = LinkPaddingMessage.NAME,
+        fields = {"link_name", "padding"},
+        md5sum = "b3ea75670df55c696fedee97774d5947")
 public class LinkPaddingMessage implements Message {
 
     static final String NAME = "moveit_msgs/LinkPadding";

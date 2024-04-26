@@ -30,6 +30,7 @@ import java.util.Objects;
  */
 @MessageMetadata(
         name = CartesianTrajectoryPointMessage.NAME,
+        fields = {"point", "time_from_start"},
         md5sum = "e996ea294f646e6911b3e85e624f5acf")
 public class CartesianTrajectoryPointMessage implements Message {
 

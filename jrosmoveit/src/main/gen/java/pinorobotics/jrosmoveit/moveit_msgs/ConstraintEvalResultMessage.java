@@ -30,6 +30,7 @@ import java.util.Objects;
  */
 @MessageMetadata(
         name = ConstraintEvalResultMessage.NAME,
+        fields = {"result", "distance"},
         md5sum = "093643083d24f6488cb5a868bd47c090")
 public class ConstraintEvalResultMessage implements Message {
 

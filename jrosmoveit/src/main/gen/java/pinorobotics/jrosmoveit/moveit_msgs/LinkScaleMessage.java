@@ -24,7 +24,10 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /** Definition for moveit_msgs/LinkScale */
-@MessageMetadata(name = LinkScaleMessage.NAME, md5sum = "19faf226446bfb2f645a4da6f2a56166")
+@MessageMetadata(
+        name = LinkScaleMessage.NAME,
+        fields = {"link_name", "scale"},
+        md5sum = "19faf226446bfb2f645a4da6f2a56166")
 public class LinkScaleMessage implements Message {
 
     static final String NAME = "moveit_msgs/LinkScale";

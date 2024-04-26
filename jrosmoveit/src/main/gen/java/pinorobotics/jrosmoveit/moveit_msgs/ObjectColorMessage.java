@@ -25,7 +25,10 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /** Definition for moveit_msgs/ObjectColor */
-@MessageMetadata(name = ObjectColorMessage.NAME, md5sum = "ec3bd6f103430e64b2ae706a67d8488e")
+@MessageMetadata(
+        name = ObjectColorMessage.NAME,
+        fields = {"id", "color"},
+        md5sum = "ec3bd6f103430e64b2ae706a67d8488e")
 public class ObjectColorMessage implements Message {
 
     static final String NAME = "moveit_msgs/ObjectColor";

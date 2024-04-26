@@ -27,6 +27,7 @@ import java.util.Objects;
 /** Definition for moveit_msgs/OrientedBoundingBox */
 @MessageMetadata(
         name = OrientedBoundingBoxMessage.NAME,
+        fields = {"pose", "extents"},
         md5sum = "da3bd98e7cb14efa4141367a9d886ee7")
 public class OrientedBoundingBoxMessage implements Message {
 

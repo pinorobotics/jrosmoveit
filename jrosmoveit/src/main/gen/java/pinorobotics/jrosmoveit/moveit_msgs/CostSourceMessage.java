@@ -24,7 +24,10 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /** Definition for moveit_msgs/CostSource */
-@MessageMetadata(name = CostSourceMessage.NAME, md5sum = "abb7e013237dacaaa8b97e704102f908")
+@MessageMetadata(
+        name = CostSourceMessage.NAME,
+        fields = {"cost_density", "aabb_min", "aabb_max"},
+        md5sum = "abb7e013237dacaaa8b97e704102f908")
 public class CostSourceMessage implements Message {
 
     static final String NAME = "moveit_msgs/CostSource";

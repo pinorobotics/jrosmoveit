@@ -27,6 +27,7 @@ import java.util.Objects;
 /** Definition for moveit_msgs/PlannerInterfaceDescription */
 @MessageMetadata(
         name = PlannerInterfaceDescriptionMessage.NAME,
+        fields = {"name", "pipeline_id", "planner_ids"},
         md5sum = "3b93afb00ba165a83730c4eb03cd1ab7")
 public class PlannerInterfaceDescriptionMessage implements Message {
 
