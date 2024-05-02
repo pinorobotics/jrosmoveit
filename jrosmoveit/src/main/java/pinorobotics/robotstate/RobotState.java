@@ -23,28 +23,14 @@ import java.util.Arrays;
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public class RobotState implements Cloneable {
+public record RobotState(double[] positions) {
 
-    private RobotModel model;
-    private double[] positions;
-
-    public void setJointPositions(double[] positions) {
-        this.positions = positions;
-    }
-
-    public RobotModel getModel() {
-        return model;
+    public RobotState(RobotState other) {
+        this(Arrays.copyOf(other.positions, other.positions.length));
     }
 
     @Override
     public String toString() {
         return XJson.asString("positions", positions);
-    }
-
-    @Override
-    public RobotState clone() throws CloneNotSupportedException {
-        var tmp = new RobotState();
-        tmp.setJointPositions(Arrays.copyOf(positions, positions.length));
-        return tmp;
     }
 }

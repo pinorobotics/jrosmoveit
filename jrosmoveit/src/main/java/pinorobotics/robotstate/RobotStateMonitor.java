@@ -41,7 +41,7 @@ public class RobotStateMonitor<S extends Message> implements Closeable {
     private static final String JOINT_STATES_TOPIC = "/joint_states";
 
     private JRosClient client;
-    private CompletableFuture<Void> future = new CompletableFuture<>();
+    private CompletableFuture<Void> hasLastState = new CompletableFuture<>();
     private volatile RobotState robotState;
     private TopicSubscriber<S> jointStateSubscriber;
     private boolean isStarted;
@@ -54,7 +54,7 @@ public class RobotStateMonitor<S extends Message> implements Closeable {
                     @Override
                     public void onNext(S jointState) {
                         robotState = transformer.apply(jointState);
-                        if (!future.isDone()) future.complete(null);
+                        if (!hasLastState.isDone()) hasLastState.complete(null);
                         getSubscription().get().request(1);
                     }
                 };
@@ -67,8 +67,8 @@ public class RobotStateMonitor<S extends Message> implements Closeable {
 
     public RobotState getLastRobotState() {
         Preconditions.isTrue(isStarted, "Monitor is not started");
-        if (!future.isDone()) {
-            Unchecked.get(future::get);
+        if (!hasLastState.isDone()) {
+            Unchecked.get(hasLastState::get);
         }
         return robotState;
     }

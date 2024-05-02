@@ -79,9 +79,11 @@ public abstract class AbstractJRosMoveItIT<T extends Message, P extends Plan> {
                 targetPose.orientation = new QuaternionMessage().withW(-1.0);
                 moveIt.setPoseTarget(targetPose, "panda_hand");
 
-                System.out.println("Start planning");
+                var initialState = monitor.getLastRobotState();
+                System.out.println("Initial state: " + initialState);
+
                 var plan = moveIt.plan();
-                System.out.println(plan);
+                System.out.println("Calculated plan:" + plan);
 
                 Assertions.assertEquals(9, getJointStateNames(plan).length);
                 Assertions.assertEquals("panda_joint4", getJointStateNames(plan)[3]);
@@ -89,14 +91,12 @@ public abstract class AbstractJRosMoveItIT<T extends Message, P extends Plan> {
                 Assertions.assertEquals(7, getJointTrajectoryNames(plan).length);
                 Assertions.assertTrue(getJointTrajectoryPoints(plan).length > 5);
 
-                var state = monitor.getLastRobotState().clone();
-                System.out.println("Current state: " + state);
-
+                System.out.println("Executing plan");
                 moveIt.execute(plan);
 
-                var newState = monitor.getLastRobotState().clone();
+                var newState = monitor.getLastRobotState();
                 System.out.println("New state: " + newState);
-                Assertions.assertNotEquals(state, newState);
+                Assertions.assertNotEquals(initialState, newState);
             }
         }
         moveIt.setPoseTarget(asPoseMessage(startTransform), "panda_hand");
