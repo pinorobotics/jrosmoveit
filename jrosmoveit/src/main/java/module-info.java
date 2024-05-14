@@ -24,7 +24,8 @@
  *
  * @see <a href="https://moveit.ros.org/">MoveIt</a>
  * @see <a href="http://pinoweb.freetzi.com/jrosmoveit">Documentation</a>
- * @see <a href="https://github.com/pinorobotics/jrosmoveit/releases">Download</a>
+ * @see <a href=
+ *     "https://github.com/pinorobotics/jrosmoveit/blob/main/jrosmoveit/release/CHANGELOG.md">Releases</a>
  * @see <a href="https://github.com/pinorobotics/jrosmoveit">GitHub repository</a>
  * @author aeon_flux aeon_flux@eclipso.ch
  */

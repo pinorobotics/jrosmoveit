@@ -20,7 +20,7 @@ Gradle:
 
 ```
 dependencies {
-  implementation 'io.github.pinorobotics:jrosmoveit:1.0'
+  implementation 'io.github.pinorobotics:jrosmoveit:2.0'
 }
 ```
 
