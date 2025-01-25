@@ -35,8 +35,12 @@ public class MoveItErrorCodesMessage implements Message {
     public Int32Message val = new Int32Message();
 
     public enum CodeType {
+        /** Since Jazzy */
+        UNDEFINED(0),
+
         /** Overall behavior */
         SUCCESS(1),
+
         FAILURE(99999),
 
         PLANNING_FAILED(-1),

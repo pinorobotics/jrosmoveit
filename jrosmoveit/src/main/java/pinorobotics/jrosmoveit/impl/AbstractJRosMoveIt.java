@@ -78,10 +78,14 @@ public abstract class AbstractJRosMoveIt<P extends Plan> implements JRosMoveIt<P
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         LOGGER.entering("close");
-        moveGroupClient.close();
-        executeTrajectoryClient.close();
+        try {
+            moveGroupClient.close();
+            executeTrajectoryClient.close();
+        } catch (Exception e) {
+            throw new JRosMoveItException(e);
+        }
         LOGGER.exiting("close");
     }
 }

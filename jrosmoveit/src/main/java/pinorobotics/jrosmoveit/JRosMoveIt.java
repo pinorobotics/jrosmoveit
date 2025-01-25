@@ -49,4 +49,7 @@ public interface JRosMoveIt<P extends Plan> extends AutoCloseable {
      * It will do only one call to MoveIt instead of two.
      */
     void move() throws JRosMoveItException;
+
+    @Override
+    void close() throws JRosMoveItException;
 }
