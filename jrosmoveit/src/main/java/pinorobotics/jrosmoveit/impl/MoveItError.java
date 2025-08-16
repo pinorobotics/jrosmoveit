@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 jrosmoveit project
+ * Copyright 2025 jrosmoveit project
  * 
  * Website: https://github.com/pinorobotics/jrosmoveit
  * 
@@ -17,16 +17,7 @@
  */
 package pinorobotics.jrosmoveit.impl;
 
-import pinorobotics.jrosmoveit.exceptions.JRosMoveItException;
-
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public class JRosMoveItUtils {
-
-    public void verifyResult(MoveItError code) throws JRosMoveItException {
-        if (!code.isOk()) {
-            throw new JRosMoveItException(code.toString());
-        }
-    }
-}
+public record MoveItError(boolean isOk) {}

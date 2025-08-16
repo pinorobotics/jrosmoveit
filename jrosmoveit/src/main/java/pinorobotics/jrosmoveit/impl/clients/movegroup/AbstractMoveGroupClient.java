@@ -17,10 +17,8 @@
  */
 package pinorobotics.jrosmoveit.impl.clients.movegroup;
 
-import id.jrosmessages.Message;
 import id.xfunction.logging.XLogger;
 import pinorobotics.jrosactionlib.JRosActionClient;
-import pinorobotics.jrosmoveit.entities.Plan;
 import pinorobotics.jrosmoveit.exceptions.JRosMoveItException;
 import pinorobotics.jrosmoveit.impl.JRosMoveItUtils;
 import pinorobotics.jrosmoveit.impl.MotionRequest;
@@ -30,8 +28,7 @@ import pinorobotics.jrosmoveit.impl.MotionRequest;
  *
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public abstract class AbstractMoveGroupClient<
-                G extends Message, R extends Message & MoveGroupResult & Plan>
+public abstract class AbstractMoveGroupClient<G extends MoveGroupGoal, R extends MoveGroupResult>
         implements MoveGroupClient<R> {
 
     private static final XLogger LOGGER = XLogger.getLogger(AbstractMoveGroupClient.class);

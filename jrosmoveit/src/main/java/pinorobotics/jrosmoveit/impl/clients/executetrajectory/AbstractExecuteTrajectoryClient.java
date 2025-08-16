@@ -17,7 +17,6 @@
  */
 package pinorobotics.jrosmoveit.impl.clients.executetrajectory;
 
-import id.jrosmessages.Message;
 import id.xfunction.logging.XLogger;
 import pinorobotics.jrosactionlib.JRosActionClient;
 import pinorobotics.jrosmoveit.entities.Plan;
@@ -30,7 +29,7 @@ import pinorobotics.jrosmoveit.impl.JRosMoveItUtils;
  * @author aeon_flux aeon_flux@eclipso.ch
  */
 public abstract class AbstractExecuteTrajectoryClient<
-                P extends Plan, G extends Message, R extends Message & ExecuteTrajectoryResult>
+                P extends Plan, G extends ExecuteTrajectoryGoal, R extends ExecuteTrajectoryResult>
         implements ExecuteTrajectoryClient<P> {
 
     private static final XLogger LOGGER = XLogger.getLogger(AbstractExecuteTrajectoryClient.class);

@@ -15,18 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jrosmoveit.impl;
+package pinorobotics.jrosmoveit.impl.clients.executetrajectory;
 
-import pinorobotics.jrosmoveit.exceptions.JRosMoveItException;
+import id.jrosmessages.Message;
 
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public class JRosMoveItUtils {
-
-    public void verifyResult(MoveItError code) throws JRosMoveItException {
-        if (!code.isOk()) {
-            throw new JRosMoveItException(code.toString());
-        }
-    }
-}
+public interface ExecuteTrajectoryGoal extends Message {}

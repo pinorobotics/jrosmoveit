@@ -17,14 +17,17 @@
  */
 package pinorobotics.jrosmoveit.impl.clients.movegroup;
 
-import pinorobotics.jrosmoveit.moveit_msgs.MoveItErrorCodesMessage;
+import id.jrosmessages.Message;
+import pinorobotics.jrosmoveit.entities.Plan;
+import pinorobotics.jrosmoveit.impl.MoveItError;
 
 /**
  * @author lambdaprime intid@protonmail.com
  */
-public interface MoveGroupResult {
+public interface MoveGroupResult extends Message, Plan {
     /** The amount of time it took to complete the motion plan */
-    public double getPlanningTime();
+    @Override
+    double getPlanningTime();
 
-    MoveItErrorCodesMessage getErrorCode();
+    MoveItError getErrorCode();
 }

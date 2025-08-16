@@ -17,11 +17,12 @@
  */
 package pinorobotics.jrosmoveit.impl.clients.executetrajectory;
 
-import pinorobotics.jrosmoveit.moveit_msgs.MoveItErrorCodesMessage;
+import id.jrosmessages.Message;
+import pinorobotics.jrosmoveit.impl.MoveItError;
 
 /**
  * @author lambdaprime intid@protonmail.com
  */
-public interface ExecuteTrajectoryResult {
-    MoveItErrorCodesMessage getErrorCode();
+public interface ExecuteTrajectoryResult extends Message {
+    MoveItError getErrorCode();
 }
